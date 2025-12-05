@@ -1,0 +1,652 @@
+/* Custom Properties/Variables (Optional but helpful) */
+:root {
+    --primary-color: #b8002c; /* STEYNDIGGS Red */
+    --secondary-color: #0d47a1; /* Deep Blue for contrast/accents */
+    --light-bg: #f9f9f9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #fff;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Base Styles */
+.container {
+    width: 90%;
+    max-width: 1200px; /* Limit width on very large screens */
+    margin: auto;
+}
+
+/* ---------- NAV ---------- */
+header {
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-links li {
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #444;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+.btn-nav { /* Style for the 'Apply Now' button in the navbar */
+    background: var(--primary-color);
+    padding: 8px 15px;
+    color: #fff !important; /* Override the color rule above */
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.btn-nav:hover {
+    background: #8e001f;
+}
+
+/* Mobile Menu Icon (Hidden on Desktop) */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 4px;
+}
+.menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: all 0.3s linear;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+    background: url("https://images.pexels.com/photos/1181391/pexels-photo-1181391.jpeg") center/cover no-repeat;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    position: relative;
+    text-align: left;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    left: 0; top: 0;
+    right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5); /* Increased overlay for readability */
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: 56px; /* Slightly larger */
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.1;
+}
+.hero p {
+    font-size: 18px;
+}
+
+
+/* General Buttons */
+.btn {
+    background: var(--primary-color);
+    padding: 12px 25px;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: 15px;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background: #8e001f;
+}
+
+.btn-secondary { /* Used for internal card CTAs */
+    background: var(--secondary-color);
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    transition: background-color 0.3s;
+    margin-top: 15px;
+}
+.btn-secondary:hover {
+    background: #093782;
+}
+
+
+/* ---------- SECTIONS ---------- */
+.section {
+    padding: 80px 0;
+}
+
+.section-title {
+    font-size: 34px; /* Slightly larger */
+    color: var(--primary-color);
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-align: center; /* Center section titles */
+}
+
+.section-subtitle {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 18px;
+    color: #555;
+}
+
+.grey-bg {
+    background: var(--light-bg);
+}
+
+/* ABOUT */
+.about-flex {
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+.about-img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.info-grid {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+}
+
+/* RESIDENCES (NEW) */
+.residence-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.residence-card-new {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.residence-card-new:hover {
+    transform: translateY(-5px);
+}
+
+.residence-img-new {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+}
+
+.residence-content {
+    padding: 25px;
+}
+
+.residence-content h3 {
+    color: var(--primary-color);
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.location-detail {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.amenities-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 15px;
+}
+
+.amenities-list li {
+    font-size: 15px;
+    margin-bottom: 8px;
+}
+
+.trust-bar {
+    text-align: center;
+    padding: 20px;
+    background: #e0e0e0;
+    border-radius: 8px;
+}
+
+.trust-link {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+
+/* VISION */
+.two-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+.two-columns h3 {
+    color: var(--secondary-color);
+    margin-top: 10px;
+}
+
+.vm-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+.features {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-weight: 500;
+    color: var(--secondary-color);
+}
+
+/* WIDE IMAGES */
+.wide-img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 30px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* GENERAL LISTS */
+.list {
+    list-style: disc;
+    padding-left: 20px;
+    margin-top: 15px;
+}
+.list li {
+    margin-bottom: 10px;
+}
+
+/* TEAM */
+.team-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.team-card {
+    background: #fff;
+    padding: 20px;
+    width: 250px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.team-card h3 {
+    color: #333;
+}
+
+.team-img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+/* CONTACT */
+.contact-info {
+    padding: 20px;
+    border: 1px dashed var(--primary-color);
+    border-radius: 8px;
+    margin-bottom: 25px;
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+/* FOOTER */
+footer {
+    background: #222;
+    color: white;
+    text-align: center;
+    padding: 40px 0;
+}
+
+.footer-content p {
+    margin: 5px 0;
+}
+
+/* ======================================= */
+/* MEDIA QUERIES FOR MOBILE RESPONSIVENESS */
+/* ======================================= */
+@media (max-width: 992px) {
+    .nav-links {
+        gap: 15px;
+    }
+    .hero h1 {
+        font-size: 48px;
+    }
+    .about-flex {
+        grid-template-columns: 1fr; /* Stack on smaller screens */
+    }
+    .about-img {
+        max-height: 300px;
+    }
+    .team-grid {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+}
+
+@media (max-width: 768px) {
+    .section {
+        padding: 50px 0;
+    }
+    .section-title {
+        font-size: 28px;
+    }
+
+    /* Mobile Nav Bar */
+    .nav-links {
+        display: none; /* Hide default nav links */
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 60px; /* Adjust based on header height */
+        left: 0;
+        background: #fff;
+        box-shadow: 0 4px 5px rgba(0,0,0,0.1);
+        padding: 20px 0;
+    }
+    .nav-links li {
+        text-align: center;
+        margin: 10px 0;
+    }
+    .nav-links a {
+        padding: 10px;
+        display: block;
+    }
+    .nav-links.active {
+        display: flex; /* Show menu when active */
+    }
+    .menu-toggle {
+        display: flex; /* Show hamburger icon */
+    }
+
+    /* Hero */
+    .hero {
+        height: 60vh;
+        align-items: flex-end; /* Bring content down */
+        padding-bottom: 50px;
+    }
+    .hero-content {
+        max-width: 90%;
+        text-align: center;
+    }
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    /* Content Layout */
+    .two-columns {
+        grid-template-columns: 1fr; /* Stack Vission/Mission */
+    }
+    .features {
+        flex-direction: column; /* Stack features list */
+        align-items: flex-start;
+    }
+    .features li {
+        margin-left: 20px;
+    }
+    .info-grid {
+        grid-template-columns: 1fr; /* Stack info grid */
+    }
+    .wide-img {
+        height: 250px;
+    }
+}
+/* --- Modern Form Container and Layout --- */
+.modern-form {
+    display: grid;
+    gap: 25px; /* Spacing between form groups */
+    padding: 30px;
+    border-radius: 12px;
+    background-color: #ffffff; /* Light background for the form area */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Soft shadow */
+    max-width: 600px; /* Constrain form width */
+    margin: 0 auto;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444; /* Darker label color */
+    font-size: 0.95em;
+}
+
+/* --- Modern Input Fields (Text, Email, Select) --- */
+
+.modern-input, 
+.modern-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background-color: #f9f9f9; /* Off-white background */
+    -webkit-appearance: none; /* Remove default browser styling for select */
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.modern-input:focus, 
+.modern-select:focus {
+    outline: none;
+    border-color: #007bff; /* Primary brand color on focus */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Focus ring */
+    background-color: #fff;
+}
+
+/* Customizing the Select Arrow (Optional, but modern) */
+.modern-select {
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%20197.8l-133%20133c-5.8%205.8-15.2%205.8-21%200l-133-133c-5.8-5.8-5.8-15.2%200-21l4-4c5.8-5.8%2015.2-5.8%2021%200l106%20106%20106-106c5.8-5.8%2015.2-5.8%2021%200l4%204c5.8%205.8%205.8%2015.2%200%2021z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 10px auto;
+    padding-right: 40px; /* Space for the arrow */
+}
+
+/* --- Radio Pill Group (NSFAS) --- */
+.radio-group-container {
+    border: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.radio-group-title {
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #444;
+    font-size: 0.95em;
+    padding: 0;
+}
+
+.radio-group {
+    display: flex;
+    gap: 10px;
+}
+
+.radio-pill-input {
+    /* Hide the default radio button */
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-pill {
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 2px solid #ddd;
+    border-radius: 20px; /* Pill shape */
+    transition: all 0.2s ease;
+    user-select: none;
+    background-color: #fff;
+    font-size: 0.9em;
+    color: #555;
+    text-align: center;
+}
+
+/* Style when the radio button is checked */
+.radio-pill-input:checked + .radio-pill {
+    background-color: #007bff; /* Primary brand color */
+    color: #ffffff;
+    border-color: #007bff;
+    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+}
+
+.radio-pill:hover {
+    border-color: #007bff;
+}
+
+/* --- Modern Button --- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
+}
+
+.primary-btn {
+    background-color: #007bff; /* Primary color */
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
+}
+
+.primary-btn:active {
+    transform: scale(0.99);
+}
+
+.large-btn {
+    width: 100%;
+    margin-top: 5px; 
+}
+
+/* Optional: Clean up the main section header */
+.section-title {
+    text-align: center;
+    font-size: 2.2em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 40px;
+    font-size: 1.05em;
+}
+
+/* Assuming a 'container' class for width limiting */
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Assuming 'grey-bg' is for the whole section background */
+.grey-bg {
+    background-color: #f7f7f7;
+    padding: 60px 0;
+}

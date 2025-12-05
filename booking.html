@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEYNDIGGS | Rates & Bookings</title>
+    <meta name="description" content="View rates and book your premium student accommodation in Johannesburg or Durban with STEYNDIGGS.">
+    <link rel="stylesheet" href="style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic styling for the booking page to complement the main site */
+        .booking-hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/3182812/pexels-photo-3182812.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        .booking-hero h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .rate-card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        .rate-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            width: 300px;
+            overflow: hidden;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+        .rate-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+        .rate-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 20px;
+        }
+        .card-content h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        .card-content .price {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #007bff; /* Use your primary color */
+            margin: 10px 0;
+        }
+        .card-content ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .card-content ul li {
+            margin-bottom: 8px;
+            font-size: 0.95em;
+            color: #555;
+        }
+        .card-content .btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+        }
+        .location-section {
+            padding-bottom: 60px;
+            border-bottom: 1px solid #eee;
+        }
+        .location-section:last-child {
+            border-bottom: none;
+        }
+        
+        /* --- Gallery Section Styles --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 123, 255, 0.85); /* Use your primary color with opacity */
+            color: white;
+            padding: 10px;
+            font-size: 1em;
+            font-weight: 600;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+        }
+        
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar container">
+        <h2 class="logo"><a href="index.html" style="color: inherit; text-decoration: none;">STEYNDIGGS</a></h2>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#residences">Residences</a></li>
+            <li><a href="index.html#nsfas">NSFAS</a></li>
+            <li><a href="#contact" class="btn-nav">Apply Now</a></li> 
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+</header>
+
+<section class="booking-hero">
+    <div class="container">
+        <h1>Secure Your Student Home</h1>
+        <p>Choose your location and room type below to view rates and reserve your space for the next academic year.</p>
+    </div>
+</section>
+
+<section id="gallery" class="section container">
+    <h2 class="section-title">Photo Gallery</h2>
+    <p class="section-subtitle">A glimpse into the STEYNDIGGS student life, from common areas to room interiors.</p>
+
+    <div class="gallery-grid">
+        
+        <div class="gallery-item">
+            <img src="1.jpeg" alt="Communal Study Area">
+            <div class="gallery-caption">Kitchen</div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="2.jpeg" alt="Modern Room Interior">
+            <div class="gallery-caption">Premium Single Studio</div>
+        </div>
+        
+        <div class="gallery-item">
+            <img src="3.jpeg" alt="Residential Kitchen">
+            <div class="gallery-caption">Fully-Equipped Kitchen</div>
+        </div>
+        
+        <div class="gallery-item">
+            <img src="4.jpeg" alt="Building Exterior">
+            <div class="gallery-caption">Modern Building Interior</div>
+        </div>
+        
+        <div class="gallery-item">
+            <img src="5.jpeg" alt="Shared Room Setup">
+            <div class="gallery-caption">Comfortable Sharing Room</div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="6.jpeg" alt="Private Bedroom">
+            <div class="gallery-caption">Parking availability</div>
+        </div>
+        
+    </div>
+</section>
+<section id="johannesburg-booking" class="section container location-section">
+    <h2 class="section-title">Johannesburg - Sandton Rates</h2>
+    <p class="section-subtitle">Serving Wits, UJ, and Boston City Campus. All-inclusive amenities.</p>
+
+    <div class="rate-card-container">
+        
+        <div class="rate-card">
+            <img src="7.jpeg" alt="Preview of a Single Room">
+            <div class="card-content">
+                <h3>Private Single Room</h3>
+                <p class="price">R5,800 / Month</p>
+                <ul>
+                    <li>✔ Exclusive use (No roommate)</li>
+                    <li>✔ Private study desk and storage</li>
+                    <li>✔ Access to all communal facilities</li>
+                    <li>✔ Limited availability - Book fast!</li>
+                </ul>
+                <a href="#booking-form" class="btn">Book Now</a>
+            </div>
+        </div>
+
+        <div class="rate-card">
+            <img src="8.jpeg" alt="Preview of a Sharing Room">
+            <div class="card-content">
+                <h3>Sharing Room (2-person)</h3>
+                <p class="price">R4,200 / Month</p>
+                <ul>
+                    <li>✔ Shared with one other student</li>
+                    <li>✔ Separate beds and study areas</li>
+                    <li>✔ Great for friends or social students</li>
+                    <li>✔ NSFAS accredited option</li>
+                </ul>
+                <a href="#booking-form" class="btn">Book Now</a>
+            </div>
+        </div>
+
+        <div class="rate-card">
+            <img src="9.jpeg" alt="Preview of a Premium Studio">
+            <div class="card-content">
+                <h3>Premium Single Studio</h3>
+                <p class="price">R7,500 / Month</p>
+                <ul>
+                    <li>✔ Includes a private kitchenette</li>
+                    <li>✔ En-suite bathroom (subject to availability)</li>
+                    <li>✔ Larger floor space</li>
+                    <li>✔ All utilities included</li>
+                </ul>
+                <a href="#booking-form" class="btn">Book Now</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="durban-booking" class="section container location-section">
+    <h2 class="section-title">Durban - Central Rates</h2>
+    <p class="section-subtitle">Ideal for DUT and UNISA students. Close to the CBD and transport.</p>
+
+    <div class="rate-card-container">
+        
+        <div class="rate-card">
+            <img src="15.jpeg" alt="Preview of a Durban Sharing Room">
+            <div class="card-content">
+                <h3>Sharing Room (2-person)</h3>
+                <p class="price">R3,950 / Month</p>
+                <ul>
+                    <li>✔ Cost-effective and popular option</li>
+                    <li>✔ Access to communal kitchens</li>
+                    <li>✔ Study pods and recreation areas</li>
+                    <li>✔ NSFAS accredited option</li>
+                </ul>
+                <a href="#booking-form" class="btn">Book Now</a>
+            </div>
+        </div>
+
+        <div class="rate-card">
+            <img src="10.jpeg" alt="Preview of a Durban Single Room">
+            <div class="card-content">
+                <h3>Standard Single Room</h3>
+                <p class="price">R5,500 / Month</p>
+                <ul>
+                    <li>✔ Private and secure space</li>
+                    <li>✔ Dedicated study desk</li>
+                    <li>✔ Free Wi-Fi and utilities</li>
+                    <li>✔ Ideal for focused study</li>
+                </ul>
+                <a href="#booking-form" class="btn">Book Now</a>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<section id="booking-form" class="section container grey-bg">
+    <h2 class="section-title">Final Booking & Inquiry</h2>
+    <p class="section-subtitle">Clicking 'Book Now' leads to our application portal. Fill in your details below to start the official reservation process.</p>
+    
+    <form action="confirmation.html" method="POST" class="modern-form">
+        
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" class="modern-input" placeholder="e.g., Jane Doe" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" class="modern-input" placeholder="e.g., jane.doe@example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label for="residence">Preferred Residence & Room Type</label>
+            <select id="residence" name="residence" class="modern-select" required>
+                <option value="" disabled selected>-- Select your preferred option --</option>
+                <optgroup label="Johannesburg - Sandton">
+                    <option value="JHB-Single">Private Single Room (R5,800)</option>
+                    <option value="JHB-Sharing">Sharing Room (R4,200)</option>
+                    <option value="JHB-Studio">Premium Single Studio (R7,500)</option>
+                </optgroup>
+                <optgroup label="Durban - Central">
+                    <option value="DUR-Sharing">Sharing Room (R3,950)</option>
+                    <option value="DUR-Single">Standard Single Room (R5,500)</option>
+                </optgroup>
+            </select>
+        </div>
+        
+        <fieldset class="radio-group-container">
+            <legend class="radio-group-title">Are you applying with NSFAS funding?</legend>
+            <div class="radio-group">
+                <input type="radio" id="nsfas-yes" name="nsfas" value="Yes" class="radio-pill-input"> 
+                <label for="nsfas-yes" class="radio-pill">Yes</label>
+                
+                <input type="radio" id="nsfas-no" name="nsfas" value="No" class="radio-pill-input" checked> 
+                <label for="nsfas-no" class="radio-pill">No</label>
+            </div>
+        </fieldset>
+
+        <button type="submit" class="btn primary-btn large-btn">
+            Proceed to Reservation &nbsp; <span aria-hidden="true">&rarr;</span>
+        </button>
+    </form>
+</section>
+<footer>
+    <div class="container footer-content">
+        <p>&copy; 2025 STEYNDIGGS Student Accommodation</p>
+        <p>33 Steyn Avenue, Kelvin, Sandton | Contact: 074 343 1875</p>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
