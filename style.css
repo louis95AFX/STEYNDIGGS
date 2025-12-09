@@ -650,3 +650,35 @@ footer {
     background-color: #f7f7f7;
     padding: 60px 0;
 }
+/*logo*/
+.site-logo {
+    /* Example 1: Set a fixed maximum width */
+    max-width: 80px; /* Adjust this value (e.g., 100px, 120px) */
+    height: auto; /* Ensures the aspect ratio is maintained */
+}
+
+/* * Optional: If you want to target the parent link to prevent it from 
+* taking up too much space, though usually the image size is sufficient.
+*/
+.logo-link {
+    display: inline-block;
+}
+.container {
+    max-width: 1200px; /* Example value */
+    margin: 0 auto;
+    padding: 0 15px; /* <--- THIS IS LIKELY THE SPACE YOU WANT TO REMOVE */
+}
+/* Target the logo link and move it left by the amount of padding 
+   your .container is using (e.g., 15px, 20px, etc.) */
+   .logo-link {
+    /* For example, if your container has 15px padding: */
+    margin-left: -85px; 
+}
+.logo {
+    /* Use the same negative value you used for .logo-link */
+    margin-left: -325px; /* Adjust this value to match your .container's padding */
+    /* You may also want to adjust its vertical alignment */
+    /* and remove any default margins the H2 tag might have */
+    margin-top: 0;
+    margin-bottom: 10px;
+}
