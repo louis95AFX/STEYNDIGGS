@@ -721,3 +721,28 @@ footer {
     color: #666;
     font-size: 0.9rem;
 }
+.uni-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.uni-badge {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #444;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+
+.uni-badge:hover {
+    border-color: #000; /* Or your primary brand color */
+    transform: translateY(-2px);
+}
