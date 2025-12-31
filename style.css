@@ -746,3 +746,20 @@ footer {
     border-color: #000; /* Or your primary brand color */
     transform: translateY(-2px);
 }
+.maintenance-banner {
+    background-color: #ffcc00; /* Warning Yellow */
+    color: #333;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    width: 100%;
+    position: relative;
+    z-index: 1001; /* Ensures it stays above the navbar */
+    border-bottom: 2px solid #e6b800;
+}
+
+.maintenance-banner p {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
