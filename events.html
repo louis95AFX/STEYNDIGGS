@@ -189,6 +189,134 @@
         transform: rotate(-45deg) translate(5px, -6px);
     }
 }
+
+/* Modal Styles */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-modal {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #888;
+}
+
+.modal-content h3 { margin-bottom: 20px; color: var(--primary-red); }
+
+.event-form { display: flex; flex-direction: column; gap: 15px; }
+
+.event-form input, .event-form textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-submit {
+    background: var(--primary-red);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Add Event Button */
+.add-event-trigger {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: 0.3s;
+}
+.add-event-trigger:hover { background: var(--primary-red); }
+
+/* Ensure the nav-links container aligns everything in the center vertically */
+.nav-links {
+    display: flex;
+    align-items: center; /* Vertically centers Home, Events, and the Button */
+    list-style: none;
+    gap: 20px;
+}
+
+/* Specific styling for the list item holding the button */
+.nav-btn-item {
+    display: flex;
+    align-items: center;
+}
+
+/* Adjust the button itself to remove any default margins that might throw off alignment */
+.add-event-trigger {
+    margin-bottom: 0 !important; /* Overriding your previous 20px margin */
+    padding: 8px 18px;
+    font-size: 0.9rem;
+    white-space: nowrap; /* Prevents the text from wrapping */
+}
+
+/* Mobile Alignment Fix */
+@media (max-width: 768px) {
+    .nav-links {
+        padding: 20px;
+    }
+    
+    .nav-btn-item {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+}
+/* Container for the loading spinner */
+.loading-container {
+    grid-column: 1 / -1; /* Spans across all calendar columns */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    color: #666;
+}
+
+/* The Spinner */
+.loader-icon {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db; /* Change to your brand color */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
     </style>
 </head>
 <body>
@@ -208,8 +336,11 @@
     
             <ul class="nav-links" id="nav-list">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="events.html" class="active">Events</a></li>
-                <li><a href="index.html#contact" class="btn-nav">Apply Now</a></li> 
+                <li class="nav-btn-item">
+                    <button class="add-event-trigger" id="openModalBtn">
+                        <i class="fas fa-plus"></i> Add New Event
+                    </button>
+                </li>
             </ul>
         </nav>
     </header>
@@ -241,111 +372,20 @@
         <p>&copy; 2025 STEYNDIGGS Student Accommodation</p>
     </div>
 </footer>
-
-<script>
-    // 1. Updated Data
-    const events = [
-        { 
-            date: '2026-03-21', 
-            title: 'Welcome Social 2026', 
-            desc: 'Join us for motivational speakers, good vibes, community, and a braai! Strictly for residents.', 
-            image: 'steyn.png' // Changed to .jpg to match your uploaded file
-        }
-    ];
-
-    // Initialize to March 2026 so the event shows immediately
-    let currentDate = new Date(2026, 2, 1); 
-
-    function renderCalendar() {
-        const grid = document.getElementById('calendarGrid');
-        const monthDisplay = document.getElementById('monthDisplay');
-        grid.innerHTML = '';
-
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth();
-        
-        monthDisplay.innerText = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(currentDate);
-
-        // Day Headers
-        ['S', 'M', 'T', 'W', 'T', 'F', 'S'].forEach(day => {
-            const el = document.createElement('div');
-            el.className = 'day-name';
-            el.innerText = day;
-            grid.appendChild(el);
-        });
-
-        const firstDay = new Date(year, month, 1).getDay();
-        const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        for (let i = 0; i < firstDay; i++) {
-            grid.appendChild(document.createElement('div'));
-        }
-
-        for (let i = 1; i <= daysInMonth; i++) {
-            const dayEl = document.createElement('div');
-            dayEl.className = 'day';
-            dayEl.innerText = i;
-
-            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-            const eventMatch = events.find(e => e.date === dateStr);
-
-            if (eventMatch) {
-                dayEl.classList.add('has-event');
-            }
-
-            dayEl.onclick = () => {
-                // Remove selected class from others
-                document.querySelectorAll('.day').forEach(d => d.classList.remove('selected'));
-                dayEl.classList.add('selected');
-                showEvent(dateStr, eventMatch);
-            };
-            grid.appendChild(dayEl);
-        }
-    }
-
-    function showEvent(date, event) {
-        const display = document.getElementById('eventDetail');
-        display.style.opacity = '0'; // Quick fade effect
-        
-        setTimeout(() => {
-            if (event) {
-                display.innerHTML = `
-                    <span style="color: #ff6b6b; font-weight: bold; font-size: 0.9rem;">${date}</span>
-                    <h2 style="margin: 5px 0; font-size: 1.4rem;">${event.title}</h2>
-                    <p style="font-size: 0.95rem; color: #555;">${event.desc}</p>
-                    <img src="${event.image}" class="flyer-img" alt="Event Flyer">
-                `;
-            } else {
-                display.innerHTML = `
-                    <i class="fas fa-calendar-times fa-3x" style="color: #ccc; margin-bottom: 15px;"></i>
-                    <h3>No events for ${date}</h3>
-                `;
-            }
-            display.style.opacity = '1';
-        }, 200);
-    }
-
-    document.getElementById('prevMonth').onclick = () => { currentDate.setMonth(currentDate.getMonth() - 1); renderCalendar(); };
-    document.getElementById('nextMonth').onclick = () => { currentDate.setMonth(currentDate.getMonth() + 1); renderCalendar(); };
-
-    renderCalendar();
-    // Hamburger Menu Logic
-const mobileMenu = document.getElementById('mobile-menu');
-const navList = document.getElementById('nav-list');
-
-mobileMenu.addEventListener('click', () => {
-    mobileMenu.classList.toggle('active');
-    navList.classList.toggle('active');
-});
-
-// Close menu when a link is clicked
-document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        navList.classList.remove('active');
-    });
-});
-</script>
+<div id="eventModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+        <h3>Add New Event</h3>
+        <form class="event-form" id="eventForm">
+            <input type="date" id="eventDate" required>
+            <input type="text" id="eventTitle" placeholder="Event Title" required>
+            <textarea id="eventDesc" placeholder="Description" rows="3" required></textarea>
+            <label for="eventImage" style="font-size: 0.8rem; color: #666;">Upload Event Flyer:</label>
+            <input type="file" id="eventImage" accept="image/*">            <button type="submit" class="btn-submit">Save Event</button>
+        </form>
+    </div>
+</div>
+<script src="events.js"></script>
 
 </body>
 </html>
