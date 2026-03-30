@@ -1,5 +1,5 @@
 /**
- * STEYNDIGGS Events - Database Integrated Version
+ * STEYNDIGGS Events - Database Integrated Version (Media Updated)
  */
 
  let events = [];
@@ -14,7 +14,6 @@
  async function fetchEventsFromDB() {
     const grid = document.getElementById('calendarGrid');
     
-    // 1. Show Loading Icon immediately
     if (grid) {
         grid.innerHTML = `
             <div class="loading-container">
@@ -23,7 +22,7 @@
             </div>
         `;
     }
-
+ 
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
@@ -32,45 +31,59 @@
             ...e,
             desc: e.description 
         }));
-
-        // 2. Render the actual calendar (this clears the loader)
+ 
         renderCalendar(); 
     } catch (err) {
         console.error("Error fetching events:", err);
-        
-        // 3. Optional: Show error message in the grid if it fails
         if (grid) {
             grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:red; padding:20px;">
                 Failed to load events. Please refresh.
             </p>`;
         }
     }
-}
- async function saveEventToDB(newEvent) {
-     try {
-         const response = await fetch(API_URL, {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify(newEvent)
-         });
-         
-         const result = await response.json();
-         
-         if (result.status === "success") {
-             await fetchEventsFromDB();
-             alert('Event added successfully!');
-         } else {
-             throw new Error(result.message || "Unknown error");
-         }
-     } catch (err) {
-         console.error("Error saving event:", err);
-         alert("Failed to save to database. Check if 'image' column is LONGTEXT.");
-     }
  }
  
+async function saveEventToDB(newEvent) {
+    // 1. Find the button and save its original state
+    const submitBtn = document.querySelector('#eventForm .btn-submit');
+    const originalContent = submitBtn ? submitBtn.innerHTML : 'Save Event';
+
+    try {
+        // 2. START LOADING: Disable button and show spinner
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Saving...`;
+        }
+
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newEvent)
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === "success") {
+            await fetchEventsFromDB();
+            alert('Event added successfully!');
+        } else {
+            throw new Error(result.message || "Unknown error");
+        }
+    } catch (err) {
+        console.error("Error saving event:", err);
+        alert("Failed to save. Ensure your database 'image' column is LONGTEXT to handle video data.");
+    } finally {
+        // 3. UNLOAD: Reset the button regardless of success or failure
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalContent;
+        }
+    }
+}
  async function deleteEventFromDB(id) {
      if (!confirm("Are you sure you want to delete this event?")) return;
      try {
+         // Note: For a true DB app, you'd add a fetch(API_URL, {method: 'DELETE'...}) here
          events = events.filter(e => e.id != id);
          renderCalendar();
          document.getElementById('eventDetail').innerHTML = `<h3>Select a date</h3>`;
@@ -123,51 +136,122 @@
      }
  }
  
- function showEvent(date, event) {
-     const display = document.getElementById('eventDetail');
-     display.style.opacity = '0'; 
-     
-     setTimeout(() => {
-         if (event) {
-             const imageHtml = event.image ? `<img src="${event.image}" class="flyer-img" alt="Flyer">` : '';
-             display.innerHTML = `
-                 <span style="color: #ff6b6b; font-weight: bold; font-size: 0.9rem;">${date}</span>
-                 <h2 style="margin: 5px 0; font-size: 1.4rem;">${event.title}</h2>
-                 <p style="font-size: 0.95rem; color: #555;">${event.desc}</p>
-                 ${imageHtml}
-             `;
-         } else {
-             display.innerHTML = `
-                 <i class="fas fa-calendar-times fa-3x" style="color: #ccc; margin-bottom: 15px;"></i>
-                 <h3>No events for ${date}</h3>
-             `;
-         }
-         display.style.opacity = '1';
-     }, 200);
- }
+function showEvent(date) {
+    const display = document.getElementById('eventDetail');
+    
+    // Set a fixed min-height immediately to prevent the box from collapsing during the transition
+    display.style.minHeight = "500px"; 
+    display.style.opacity = '0'; 
+    
+    setTimeout(() => {
+        const dayEvents = events.filter(e => e.date === date);
+
+        if (dayEvents.length > 0) {
+            let eventsHtml = dayEvents.map((event, index) => {
+                let mediaHtml = '';
+                
+                if (event.image && event.image.startsWith('data:video/mp4')) {
+                    mediaHtml = `
+                        <video controls class="flyer-img" style="width: 100%; max-height: 300px; border-radius: 8px; background: #000; object-fit: contain;">
+                            <source src="${event.image}" type="video/mp4">
+                        </video>`;
+                } else if (event.image) {
+                    mediaHtml = `<img src="${event.image}" class="flyer-img" alt="Flyer" style="width: 100%; max-height: 300px; border-radius: 8px; object-fit: contain;">`;
+                }
+
+                return `
+                    <div class="event-slide" style="min-width: 100%; max-width: 100%; scroll-snap-align: center; padding: 0 10px; box-sizing: border-box; overflow: hidden;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 10px;">
+                            <h2 style="margin: 0; font-size: 1.2rem; white-space: normal; line-height: 1.2; word-break: break-word; flex: 1;">${event.title}</h2>
+                            ${dayEvents.length > 1 ? `<span style="font-size: 0.7rem; background: #eee; padding: 2px 8px; border-radius: 10px; flex-shrink: 0;">${index + 1}/${dayEvents.length}</span>` : ''}
+                        </div>
+                        
+                        <p style="font-size: 0.9rem; color: #555; margin-bottom: 15px; max-height: 100px; overflow-y: auto; line-height: 1.4; scrollbar-width: none;">
+                            ${event.desc}
+                        </p>
+                        
+                        <div style="width: 100%; display: flex; justify-content: center;">
+                            ${mediaHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            display.innerHTML = `
+                <span style="color: #ff6b6b; font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; display: block; text-align: center;">${date}</span>
+                
+                <div class="events-scroll-container" style="
+                    display: flex; 
+                    overflow-x: auto; 
+                    scroll-snap-type: x mandatory; 
+                    gap: 10px; 
+                    width: 100%;
+                    padding-bottom: 15px;
+                    scrollbar-width: thin;
+                ">
+                    ${eventsHtml}
+                </div>
+                
+                ${dayEvents.length > 1 ? `<p style="text-align: center; font-size: 0.75rem; color: #999; margin-top: 5px;">Swipe left/right for more events (${dayEvents.length}) →</p>` : ''}
+            `;
+        } else {
+            display.innerHTML = `
+                <div style="height: 400px; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+                    <i class="fas fa-calendar-times fa-3x" style="color: #ccc; margin-bottom: 15px;"></i>
+                    <h3 style="color: #888;">No events for ${date}</h3>
+                </div>
+            `;
+        }
+        display.style.opacity = '1';
+    }, 200);
+}
+ // --- EVENT HANDLERS & MODAL ---
  
- // --- EVENT HANDLERS & MODAL (MODIFIED FOR PASSWORD) ---
- 
- const modal = document.getElementById('eventModal');
- const openModalBtn = document.getElementById('openModalBtn');
- const closeModalBtn = document.getElementById('closeModalBtn');
- const eventForm = document.getElementById('eventForm');
- 
- if (openModalBtn) {
-     openModalBtn.onclick = () => {
-         // 2. THIS IS THE PASSWORD CHECK
-         const userInput = prompt("Enter admin password to add events:");
-         
-         if (userInput === ADMIN_PASSWORD) {
-             modal.style.display = 'flex';
-         } else if (userInput !== null) {
-             alert("Incorrect password. Access denied.");
-         }
-     };
- }
+ const loginModal = document.getElementById('loginModal');
+const adminPassInput = document.getElementById('adminPassInput');
+const confirmLoginBtn = document.getElementById('confirmLoginBtn');
+const cancelLoginBtn = document.getElementById('cancelLoginBtn');
+
+const modal = document.getElementById('eventModal');
+const openModalBtn = document.getElementById('openModalBtn');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const eventForm = document.getElementById('eventForm');
+if (openModalBtn) {
+    openModalBtn.onclick = () => {
+        // Clear previous input and show login modal
+        adminPassInput.value = '';
+        loginModal.style.display = 'flex';
+        adminPassInput.focus();
+    };
+}
+
+// Handle Login
+confirmLoginBtn.onclick = () => {
+    if (adminPassInput.value === ADMIN_PASSWORD) {
+        loginModal.style.display = 'none'; // Hide login
+        modal.style.display = 'flex';      // Show the Add Event modal
+    } else {
+        alert("Incorrect password!");
+        adminPassInput.value = '';
+    }
+};
+
+// Allow pressing "Enter" to login
+adminPassInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') confirmLoginBtn.click();
+});
+
+// Cancel Button
+cancelLoginBtn.onclick = () => {
+    loginModal.style.display = 'none';
+};
+
+// Close login modal if clicking outside of it
+window.addEventListener('click', (e) => {
+    if (e.target == loginModal) loginModal.style.display = 'none';
+});
  
  if (closeModalBtn) closeModalBtn.onclick = () => modal.style.display = 'none';
- 
  window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
  
  eventForm.onsubmit = async (e) => {
@@ -176,18 +260,25 @@
      const date = document.getElementById('eventDate').value;
      const title = document.getElementById('eventTitle').value;
      const desc = document.getElementById('eventDesc').value;
-     const imageFile = document.getElementById('eventImage').files[0];
+     // Updated ID to match the HTML we edited earlier
+     const mediaFile = document.getElementById('eventMedia').files[0];
  
-     const processSubmission = async (imgData) => {
-         await saveEventToDB({ date, title, desc, image: imgData });
+     // File size limit (e.g., 15MB) to prevent database crashes/slowness
+     if (mediaFile && mediaFile.size > 15 * 1024 * 1024) {
+         alert("File is too large! Please select a file under 15MB.");
+         return;
+     }
+ 
+     const processSubmission = async (mediaData) => {
+         await saveEventToDB({ date, title, desc, image: mediaData });
          eventForm.reset();
          modal.style.display = 'none';
      };
  
-     if (imageFile) {
+     if (mediaFile) {
          const reader = new FileReader();
          reader.onload = (e) => processSubmission(e.target.result);
-         reader.readAsDataURL(imageFile);
+         reader.readAsDataURL(mediaFile);
      } else {
          await processSubmission(null);
      }

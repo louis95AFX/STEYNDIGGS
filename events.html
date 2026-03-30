@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events | STEYNDIGGS Student Accommodation</title>
+    <link rel="icon" type="image/jpeg" href="17.jpeg">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -372,6 +373,17 @@
         <p>&copy; 2025 STEYNDIGGS Student Accommodation</p>
     </div>
 </footer>
+  <div id="loginModal" class="modal">
+    <div class="modal-content" style="max-width: 300px; text-align: center;">
+        <h3>Admin Access</h3>
+        <p style="font-size: 0.8rem; color: #666;">Please enter password to continue</p>
+        <input type="password" id="adminPassInput" placeholder="Password" style="width: 100%; margin: 15px 0; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+        <div style="display: flex; gap: 10px;">
+            <button id="cancelLoginBtn" class="btn-submit" style="background: #ccc;">Cancel</button>
+            <button id="confirmLoginBtn" class="btn-submit">Login</button>
+        </div>
+    </div>
+</div>
 <div id="eventModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" id="closeModalBtn">&times;</span>
@@ -380,8 +392,11 @@
             <input type="date" id="eventDate" required>
             <input type="text" id="eventTitle" placeholder="Event Title" required>
             <textarea id="eventDesc" placeholder="Description" rows="3" required></textarea>
-            <label for="eventImage" style="font-size: 0.8rem; color: #666;">Upload Event Flyer:</label>
-            <input type="file" id="eventImage" accept="image/*">            <button type="submit" class="btn-submit">Save Event</button>
+            
+            <label for="eventMedia" style="font-size: 0.8rem; color: #666;">Upload Image or Video (MP4):</label>
+            <input type="file" id="eventMedia" accept="image/*,video/mp4">           
+            
+            <button type="submit" class="btn-submit">Save Event</button>
         </form>
     </div>
 </div>
